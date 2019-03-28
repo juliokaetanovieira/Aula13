@@ -17,6 +17,7 @@ public class ContaBancaria {
 	
 	private Cliente cliente;
 	
+	
 	private void novoHistorico(ContaBancariaTipoOperacao tipo, Double valor){
 		ContaBancariaHistorico historico = new ContaBancariaHistorico(tipo, valor);
 		this.historicos.add(historico);
@@ -45,6 +46,21 @@ public class ContaBancaria {
 		}
 		this.saldo += valor;
 		novoHistorico(ContaBancariaTipoOperacao.ENTRADA, valor);
+	}
+	
+	public void transferenciasaida(Double valor) {
+		if(valor <= 0) {
+			throw new RuntimeException("Você não tem saldo disponível para transfereir");
+		}
+		this.saldo -= valor;
+		novoHistorico(ContaBancariaTipoOperacao.SAIDA, valor);
+	
+	}
+	
+	public void entradatransferencia(Double valor) {
+		this.saldo += valor;
+		novoHistorico(ContaBancariaTipoOperacao.ENTRADA, valor);
+	
 	}
 	
 	public Double getSaldo(){
